@@ -45,6 +45,25 @@
         android:layout_marginBottom="113dp" />
 
     <EditText
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TextView01"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:clickable="false"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username"
+        android:layout_above="@+id/username"
+        android:layout_alignLeft="@+id/TextView01"
+        android:layout_alignStart="@+id/TextView01" />
+
+    <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,22 +84,5 @@
         android:layout_marginLeft="22dp"
         android:text="Password" />
 
-
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/TextView01"
-        android:layout_centerHorizontal="true"
-        android:ems="10" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username"
-        android:layout_above="@+id/username"
-        android:layout_alignLeft="@+id/TextView01"
-        android:layout_alignStart="@+id/TextView01" />
 
 </RelativeLayout>

@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Success!"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:text="Film"
+        android:id="@+id/film"
+        android:layout_marginTop="100dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="75dp"
+        android:text="Serie"
+        android:id="@+id/serie"
+        android:layout_marginTop="75dp" />
 
 </LinearLayout>

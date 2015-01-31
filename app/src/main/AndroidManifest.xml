@@ -25,6 +25,10 @@
             android:name="com.mushroom.waylf.Home"
             android:label="Waylf"  >
         </activity>
+        <activity
+            android:name="com.mushroom.waylf.Film"
+            android:label="Waylf film"  >
+        </activity>
     </application>
 
 </manifest>
