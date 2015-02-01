@@ -5,18 +5,29 @@
     android:layout_height="match_parent"
     android:background="#fff" >
 
-    <Button
+    <EditText
+        android:id="@+id/search"
         android:layout_width="fill_parent"
         android:layout_height="75dp"
-        android:text="Film"
-        android:id="@+id/film"
-        android:layout_marginTop="100dp" />
+        android:layout_above="@+id/TextView01"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:clickable="false"
+        android:inputType="text"
+        android:layout_marginTop="75dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:text="Recherche"
+        android:id="@+id/find"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="75dp"
-        android:text="Serie"
-        android:id="@+id/serie"
+        android:text="Déja vue"
+        android:id="@+id/listAlreadyWatch"
         android:layout_marginTop="75dp" />
 
 </LinearLayout>
