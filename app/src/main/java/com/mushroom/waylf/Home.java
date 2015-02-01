@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import com.mushroom.waylf.library.JSONParser;
 
@@ -36,6 +37,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import com.mushroom.waylf.library.Request;
 
 public class Home extends Activity implements View.OnClickListener {
 
@@ -43,12 +45,16 @@ public class Home extends Activity implements View.OnClickListener {
     // JSON parser class
     JSONParser jsonParser = new JSONParser();
     private ProgressDialog pDialog;
-    private Button mFilm, mSerie;
+    private EditText mSearch;
+    private Button mFind, mList;
+    //final String EXTRA_LOGIN = "user_login";
+    private String result;
 
-    private static final String URL_Request = "http://www.omdbapi.com/?t=iron+man&y=&plot=short&r=json";
+    private static String URL_Request;
+    //= "http://www.omdbapi.com/?t=iron+man&y=&plot=short&r=json";
+
 
     //JSON element ids from repsonse of php script:
-    private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
     @Override
@@ -57,26 +63,33 @@ public class Home extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+        //setup input fields
+        mSearch = (EditText)findViewById(R.id.search);
+
         //setup buttons
-        mFilm = (Button)findViewById(R.id.film);
-        mSerie = (Button)findViewById(R.id.serie);
+        mFind = (Button)findViewById(R.id.find);
+        mList = (Button)findViewById(R.id.listAlreadyWatch);
 
         //register listeners
-        mFilm.setOnClickListener(this);
-        mSerie.setOnClickListener(this);
+        mFind.setOnClickListener(this);
+        mList.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            case R.id.film:
+            case R.id.find:
+                String search = mSearch.getText().toString();
+                URL_Request = new Request().SearchListRequest(search);
                 //new RequestTask().execute("http://www.omdbapi.com/?t=iron+man&y=&plot=short&r=json");
                 new AttemptRequest().execute();
-                //Intent i = new Intent(this, Film.class);
-                //startActivity(i);
+                Intent i = new Intent(this, MoviesList.class);
+                //i.putExtra(res, result);
+                startActivity(i);
                 break;
-            case R.id.serie:
+            case R.id.listAlreadyWatch:
                 //Intent j = new Intent(this, Serie.class);
                 //startActivity(j);
                 break;
@@ -156,7 +169,7 @@ public class Home extends Activity implements View.OnClickListener {
 
                 // check your log for json response
                 Log.d("Request attempt", json.toString());
-
+                result = json.toString();
                 Log.d("Request Successful!", json.toString());
                 return json.getString(TAG_MESSAGE);
 
