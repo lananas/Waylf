@@ -82,7 +82,9 @@ public class Login extends Activity implements OnClickListener{
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.login:
-                new AttemptLogin().execute();
+                Intent j = new Intent(this, Home.class);
+                startActivity(j);
+                //new AttemptLogin().execute();
                 break;
             case R.id.register:
                 Intent i = new Intent(this, Register.class);
