@@ -26,7 +26,7 @@
             android:label="Waylf"  >
         </activity>
         <activity
-            android:name="com.mushroom.waylf.Film"
+            android:name="com.mushroom.waylf.MoviesList"
             android:label="Waylf film"  >
         </activity>
     </application>

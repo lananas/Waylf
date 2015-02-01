@@ -85,7 +85,7 @@ public class Home extends Activity implements View.OnClickListener {
                 URL_Request = new Request().SearchListRequest(search);
                 //new RequestTask().execute("http://www.omdbapi.com/?t=iron+man&y=&plot=short&r=json");
                 new AttemptRequest().execute();
-                Intent i = new Intent(this, Film.class);
+                Intent i = new Intent(this, MoviesList.class);
                 //i.putExtra(res, result);
                 startActivity(i);
                 break;
