@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mushroom.waylf.library.Request;
 
-public class Home extends Activity implements View.OnClickListener {
+public class Home extends Activity implements View.OnClickListener  {
 
     // Progress Dialog
     // JSON parser class
@@ -47,12 +47,10 @@ public class Home extends Activity implements View.OnClickListener {
     private ProgressDialog pDialog;
     private EditText mSearch;
     private Button mFind, mList;
-    //final String EXTRA_LOGIN = "user_login";
-    private String result;
+    public String response;
+    final String EXTRA = "test";
 
     private static String URL_Request;
-    //= "http://www.omdbapi.com/?t=iron+man&y=&plot=short&r=json";
-
 
     //JSON element ids from repsonse of php script:
     private static final String TAG_MESSAGE = "message";
@@ -83,10 +81,10 @@ public class Home extends Activity implements View.OnClickListener {
             case R.id.find:
                 String search = mSearch.getText().toString();
                 URL_Request = new Request().SearchListRequest(search);
-                //new RequestTask().execute("http://www.omdbapi.com/?t=iron+man&y=&plot=short&r=json");
                 new AttemptRequest().execute();
+
                 Intent i = new Intent(this, MoviesList.class);
-                //i.putExtra(res, result);
+                i.putExtra(EXTRA,response);
                 startActivity(i);
                 break;
             case R.id.listAlreadyWatch:
@@ -97,6 +95,13 @@ public class Home extends Activity implements View.OnClickListener {
             default:
                 break;
         }
+
+    }
+
+    private void processValue(String myValue)
+    {
+        response = myValue;
+        Log.d("Request response", response);
     }
     /*
     class RequestTask extends AsyncTask<String, String, String> {
@@ -155,10 +160,8 @@ public class Home extends Activity implements View.OnClickListener {
         @Override
         protected String doInBackground(String... args) {
             // TODO Auto-generated method stub
-            // Check for success tag
-            int success;
 
-            try {
+            //try {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -169,28 +172,30 @@ public class Home extends Activity implements View.OnClickListener {
 
                 // check your log for json response
                 Log.d("Request attempt", json.toString());
-                result = json.toString();
-                Log.d("Request Successful!", json.toString());
-                return json.getString(TAG_MESSAGE);
+                //json.getString(TAG_MESSAGE);
+                return json.toString();
+                //return json.getString(TAG_MESSAGE);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            //} catch (JSONException e) {
+                //e.printStackTrace();
+            //}
 
-            return null;
+            //return null;
 
         }
         /**
          * After completing background task Dismiss the progress dialog
          * **/
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String result) {
             // dismiss the dialog once product deleted
             pDialog.dismiss();
-            if (file_url != null){
-                Toast.makeText(Home.this, file_url, Toast.LENGTH_LONG).show();
+
+            if (result != null){
+                processValue(result);
             }
 
         }
+
 
     }
 
