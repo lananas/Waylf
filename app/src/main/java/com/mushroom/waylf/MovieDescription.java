@@ -12,12 +12,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mushroom.waylf.library.Request;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -44,7 +48,7 @@ public class MovieDescription extends ActionBarActivity {
     private Request MovieRequest = new Request();
 
     final String EXTRA_USERID = "userid";
-    String userId = "";
+    private String userIdP = "";
 
     TextView NameTv;
     TextView YearTv;
@@ -55,6 +59,7 @@ public class MovieDescription extends ActionBarActivity {
     private static String URL_Request;
     public String response ="";
     com.mushroom.waylf.library.JSONParser jsonParser = new com.mushroom.waylf.library.JSONParser();
+    CheckBox FilmVu;
 
 
 
@@ -65,7 +70,7 @@ public class MovieDescription extends ActionBarActivity {
 
         Intent intent = getIntent();
         MovieId = intent.getStringExtra(EXTRA_ID);
-        userId = intent.getExtras().getString(EXTRA_USERID);
+        userIdP = intent.getStringExtra(EXTRA_USERID);
 
 
         URL_Request = MovieRequest.SearchIdRequest(MovieId);
@@ -86,6 +91,14 @@ public class MovieDescription extends ActionBarActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        FilmVu = (CheckBox) findViewById(R.id.checkbox);
+        FilmVu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                new AttemptCheckVu().execute();
+            }
+        });
 
     }
 
@@ -195,6 +208,82 @@ public class MovieDescription extends ActionBarActivity {
 
         }
 
+
+    }
+
+    class AttemptCheckVu extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        boolean failure = false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MovieDescription.this);
+            pDialog.setMessage("Save Movie...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            // TODO Auto-generated method stub
+            // Check for success tag
+            int success;
+
+            String LOGIN_URL = "http://10.0.2.2:8888/webservice/check.php";
+            final String TAG_SUCCESS = "success";
+            final String TAG_MESSAGE = "message";
+            String omdbId = MovieId;
+             String userId = userIdP;
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("IdOmdb", omdbId));
+                // params.add(new BasicNameValuePair("IdUser", userId));
+
+                Log.d("request!", "starting");
+                // getting product details by making HTTP request
+                JSONObject json = jsonParser.makeHttpRequest(
+                        LOGIN_URL, "POST", params);
+
+                // check your log for json response
+                Log.d("Login attempt", json.toString());
+
+                // json success tag
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+                    Log.d("Login Successful!", json.toString());
+                    Intent i = new Intent(MovieDescription.this, Home.class);
+                    finish();
+                    startActivity(i);
+                    return json.getString(TAG_MESSAGE);
+                }else{
+                    Log.d("Login Failure!", json.getString(TAG_MESSAGE));
+                    return json.getString(TAG_MESSAGE);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+
+        }
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once product deleted
+            pDialog.dismiss();
+            if (file_url != null){
+                Toast.makeText(MovieDescription.this, file_url, Toast.LENGTH_LONG).show();
+            }
+
+        }
 
     }
 }
