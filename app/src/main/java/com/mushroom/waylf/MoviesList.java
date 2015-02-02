@@ -30,6 +30,7 @@ public class MoviesList extends Activity {
     TextView test = null;
     List<String>  idMovie= null;
     final String EXTRA = "test";
+    final String EXTRA_ID="MovieId";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,9 @@ public class MoviesList extends Activity {
                                         View view,
                                         int position,
                                         long id) {
+                    Intent intentMovie = new Intent(MoviesList.this,MovieDescription.class);
+                    intentMovie.putExtra(EXTRA_ID,idMovie.get(position));
+                    startActivity(intentMovie);
                     //ouvrir fenetre avec changement envois de l'id
                     //test.setText(idMovie.get(position));
                     // Que faire quand on clique sur un élément de la liste ?
