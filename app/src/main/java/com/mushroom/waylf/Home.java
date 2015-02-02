@@ -12,33 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import com.mushroom.waylf.library.JSONParser;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+
 
 import com.mushroom.waylf.library.Request;
 
@@ -54,9 +35,6 @@ public class Home extends Activity implements View.OnClickListener  {
     final String EXTRA = "test";
 
     private static String URL_Request;
-
-    //JSON element ids from repsonse of php script:
-    private static final String TAG_MESSAGE = "message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,49 +97,11 @@ public class Home extends Activity implements View.OnClickListener  {
         this.response = myValue;
         Log.d("Request response", this.response);
     }
-    /*
-    class RequestTask extends AsyncTask<String, String, String> {
 
-        @Override
-        protected String doInBackground(String... uri) {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response;
-            String responseString = null;
-            try {
-                response = httpclient.execute(new HttpGet(uri[0]));
-                StatusLine statusLine = response.getStatusLine();
-                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    response.getEntity().writeTo(out);
-                    responseString = out.toString();
-                    Log.d("Login Successful!", out.toString());
-                    out.close();
-                } else{
-                    //Closes the connection.
-                    response.getEntity().getContent().close();
-                    throw new IOException(statusLine.getReasonPhrase());
-                }
-            } catch (ClientProtocolException e) {
-                //TODO Handle problems..
-            } catch (IOException e) {
-                //TODO Handle problems..
-            }
-            return responseString;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            //Do anything with response..
-        }
-    }
-    */
     class AttemptRequest extends AsyncTask<String, String, String> {
-
         /**
          * Before starting background thread Show Progress Dialog
          * */
-        boolean failure = false;
 
         @Override
         protected void onPreExecute() {
@@ -177,26 +117,18 @@ public class Home extends Activity implements View.OnClickListener  {
         protected String doInBackground(String... args) {
             // TODO Auto-generated method stub
 
-            //try {
-                // Building Parameters
-                List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-                Log.d("request!", "starting");
-                // getting product details by making HTTP request
-                JSONObject json = jsonParser.makeHttpRequest(
-                        URL_Request, "GET", params);
+            Log.d("request!", "starting");
+            // getting product details by making HTTP request
+            JSONObject json = jsonParser.makeHttpRequest(
+                    URL_Request, "GET", params);
 
-                // check your log for json response
-                Log.d("Request attempt", json.toString());
-                //json.getString(TAG_MESSAGE);
-                return json.toString();
-                //return json.getString(TAG_MESSAGE);
+            // check your log for json response
+            Log.d("Request attempt", json.toString());
 
-            //} catch (JSONException e) {
-                //e.printStackTrace();
-            //}
-
-            //return null;
+            return json.toString();
 
         }
         /**
@@ -206,6 +138,7 @@ public class Home extends Activity implements View.OnClickListener  {
             // dismiss the dialog once product deleted
             pDialog.dismiss();
 
+            // return result
             if (result != null){
                 processValue(result);
             }
