@@ -63,9 +63,9 @@ public class Home extends Activity implements View.OnClickListener  {
         switch (v.getId()) {
             case R.id.find:
                 String search = mSearch.getText().toString();
+                search = search.replaceAll("\\s","+");
                 URL_Request = new Request().SearchListRequest(search);
                 AttemptRequest attemptRequest = new AttemptRequest();
-
                 attemptRequest.execute();
                 try {
                     response = attemptRequest.get().toString();
