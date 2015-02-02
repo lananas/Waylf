@@ -61,6 +61,7 @@ public class Home extends Activity implements View.OnClickListener  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
+
         //setup input fields
         mSearch = (EditText)findViewById(R.id.search);
 
@@ -100,8 +101,8 @@ public class Home extends Activity implements View.OnClickListener  {
 
     private void processValue(String myValue)
     {
-        response = myValue;
-        Log.d("Request response", response);
+        this.response = myValue;
+        Log.d("Request response", this.response);
     }
     /*
     class RequestTask extends AsyncTask<String, String, String> {

@@ -1,8 +1,10 @@
 package com.mushroom.waylf;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Movie;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,6 +29,7 @@ public class MoviesList extends Activity {
     ListView liste = null;
     TextView test = null;
     List<String>  idMovie= null;
+    final String EXTRA = "test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +37,18 @@ public class MoviesList extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.movies_list);
 
+
         liste = (ListView) findViewById(R.id.listView);
-        test = (TextView) findViewById(R.id.textView3);
+        test = (TextView) findViewById(R.id.textView);
         Request request = new Request();
 
         // A changer
         String json = "{\"Search\":[{\"Title\":\"Iron Man\",\"Year\":\"2008\",\"imdbID\":\"tt0371746\",\"Type\":\"movie\"},{\"Title\":\"Iron Man 3\",\"Year\":\"2013\",\"imdbID\":\"tt1300854\",\"Type\":\"movie\"}]}";
         List<String> Movie = null;
+
+        Intent intent = getIntent();
+        String test = intent.getExtras().getString(EXTRA);
+
 
         try {
             Movie = NewListMovie(request.ReadJsonList(json));
