@@ -37,6 +37,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
 import com.mushroom.waylf.library.Request;
 
 public class Home extends Activity implements View.OnClickListener  {
@@ -47,7 +50,7 @@ public class Home extends Activity implements View.OnClickListener  {
     private ProgressDialog pDialog;
     private EditText mSearch;
     private Button mFind, mList;
-    public String response;
+    public String response ="";
     final String EXTRA = "test";
 
     private static String URL_Request;
@@ -73,6 +76,7 @@ public class Home extends Activity implements View.OnClickListener  {
         mFind.setOnClickListener(this);
         mList.setOnClickListener(this);
 
+
     }
 
     @Override
@@ -82,7 +86,18 @@ public class Home extends Activity implements View.OnClickListener  {
             case R.id.find:
                 String search = mSearch.getText().toString();
                 URL_Request = new Request().SearchListRequest(search);
-                new AttemptRequest().execute();
+                AttemptRequest attemptRequest = new AttemptRequest();
+
+                attemptRequest.execute();
+                try {
+                    response = attemptRequest.get().toString();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }catch (ExecutionException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
                 Intent i = new Intent(this, MoviesList.class);
                 i.putExtra(EXTRA,response);
@@ -194,6 +209,7 @@ public class Home extends Activity implements View.OnClickListener  {
             if (result != null){
                 processValue(result);
             }
+
 
         }
 

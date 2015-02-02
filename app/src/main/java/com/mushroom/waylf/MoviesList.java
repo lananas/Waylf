@@ -43,11 +43,11 @@ public class MoviesList extends Activity {
         Request request = new Request();
 
         // A changer
-        String json = "{\"Search\":[{\"Title\":\"Iron Man\",\"Year\":\"2008\",\"imdbID\":\"tt0371746\",\"Type\":\"movie\"},{\"Title\":\"Iron Man 3\",\"Year\":\"2013\",\"imdbID\":\"tt1300854\",\"Type\":\"movie\"}]}";
+        //String json = "{\"Search\":[{\"Title\":\"Iron Man\",\"Year\":\"2008\",\"imdbID\":\"tt0371746\",\"Type\":\"movie\"},{\"Title\":\"Iron Man 3\",\"Year\":\"2013\",\"imdbID\":\"tt1300854\",\"Type\":\"movie\"}]}";
         List<String> Movie = null;
 
         Intent intent = getIntent();
-        String test = intent.getExtras().getString(EXTRA);
+        String json = intent.getExtras().getString(EXTRA);
 
 
         try {
