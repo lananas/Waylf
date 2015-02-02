@@ -91,7 +91,7 @@ public class MovieDescription extends ActionBarActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        FilmVu = (CheckBox) findViewById(R.id.checkbox);
+        FilmVu = (CheckBox) findViewById(R.id.checkBox);
         FilmVu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -238,12 +238,12 @@ public class MovieDescription extends ActionBarActivity {
             final String TAG_SUCCESS = "success";
             final String TAG_MESSAGE = "message";
             String omdbId = MovieId;
-             String userId = userIdP;
+            String userId = userIdP;
             try {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
-                params.add(new BasicNameValuePair("IdOmdb", omdbId));
-                // params.add(new BasicNameValuePair("IdUser", userId));
+                params.add(new BasicNameValuePair("omdbId", omdbId));
+                params.add(new BasicNameValuePair("userId", userId));
 
                 Log.d("request!", "starting");
                 // getting product details by making HTTP request
@@ -251,15 +251,12 @@ public class MovieDescription extends ActionBarActivity {
                         LOGIN_URL, "POST", params);
 
                 // check your log for json response
-                Log.d("Login attempt", json.toString());
+                Log.d(" success", json.toString());
 
                 // json success tag
                 success = json.getInt(TAG_SUCCESS);
                 if (success == 1) {
-                    Log.d("Login Successful!", json.toString());
-                    Intent i = new Intent(MovieDescription.this, Home.class);
-                    finish();
-                    startActivity(i);
+
                     return json.getString(TAG_MESSAGE);
                 }else{
                     Log.d("Login Failure!", json.getString(TAG_MESSAGE));
@@ -280,7 +277,7 @@ public class MovieDescription extends ActionBarActivity {
             // dismiss the dialog once product deleted
             pDialog.dismiss();
             if (file_url != null){
-                Toast.makeText(MovieDescription.this, file_url, Toast.LENGTH_LONG).show();
+
             }
 
         }
