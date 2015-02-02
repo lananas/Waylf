@@ -1,12 +1,15 @@
 package com.mushroom.waylf;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import com.mushroom.waylf.library.Request;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -23,6 +27,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class MovieDescription extends ActionBarActivity {
@@ -34,13 +41,17 @@ public class MovieDescription extends ActionBarActivity {
     private String MovieGenre;
     private String MoviePlot;
     private String MoviePoster;
-    private Request MovieRequest;
+    private Request MovieRequest = new Request();
 
     TextView NameTv;
     TextView YearTv;
     TextView RuntimeTv;
     TextView GenreTv;
     TextView PlotTv;
+    private ProgressDialog pDialog;
+    private static String URL_Request;
+    public String response ="";
+    com.mushroom.waylf.library.JSONParser jsonParser = new com.mushroom.waylf.library.JSONParser();
 
 
 
@@ -49,10 +60,21 @@ public class MovieDescription extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_description);
 
-
         Intent intent = getIntent();
         MovieId = intent.getStringExtra(EXTRA_ID);
-        String IdUrl = MovieRequest.SearchIdRequest(MovieId);
+
+        URL_Request = MovieRequest.SearchIdRequest(MovieId);
+        AttemptRequest attemptRequest = new AttemptRequest();
+        attemptRequest.execute();
+        try {
+            response = attemptRequest.get().toString();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }catch (ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
        // try {
             //InitializeMovieData(MovieId);
@@ -113,10 +135,67 @@ public class MovieDescription extends ActionBarActivity {
     public JSONObject ReadJsonMovie(String JsonMovie) throws JSONException {
         JSONObject json = null;
         try {
-            json = (JSONObject)new JSONParser().parse(JsonMovie);
+            json = (JSONObject)new org.json.simple.parser.JSONParser().parse(JsonMovie);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return json;
+    }
+
+    private void processValue(String myValue)
+    {
+        this.response = myValue;
+        Log.d("Request response", this.response);
+    }
+
+    class AttemptRequest extends AsyncTask<String, String, String> {
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MovieDescription.this);
+            pDialog.setMessage("Search...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            // TODO Auto-generated method stub
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            Log.d("request!", "starting");
+            // getting product details by making HTTP request
+            JSONObject json = jsonParser.makeHttpRequest(
+                    URL_Request, "GET", params);
+
+            // check your log for json response
+            Log.d("Request attempt", json.toString());
+
+            return json.toString();
+
+        }
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String result) {
+            // dismiss the dialog once product deleted
+            pDialog.dismiss();
+
+            // return result
+            if (result != null){
+                processValue(result);
+            }
+
+
+        }
+
+
     }
 }
