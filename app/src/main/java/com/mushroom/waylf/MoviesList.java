@@ -31,6 +31,8 @@ public class MoviesList extends Activity {
     List<String>  idMovie= null;
     final String EXTRA = "test";
     final String EXTRA_ID="MovieId";
+    final String EXTRA_USERID = "userid";
+    String userId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +51,8 @@ public class MoviesList extends Activity {
 
         Intent intent = getIntent();
         String json = intent.getExtras().getString(EXTRA);
-
-
+        userId = intent.getExtras().getString(EXTRA_USERID);
+        System.out.print(userId);
         try {
             Movie = NewListMovie(request.ReadJsonList(json));
             idMovie = NewIdList(request.ReadJsonList(json));
@@ -64,6 +66,7 @@ public class MoviesList extends Activity {
                                         long id) {
                     Intent intentMovie = new Intent(MoviesList.this,MovieDescription.class);
                     intentMovie.putExtra(EXTRA_ID,idMovie.get(position));
+                    intentMovie.putExtra(EXTRA_USERID, userId);
                     startActivity(intentMovie);
                     //ouvrir fenetre avec changement envois de l'id
                     //test.setText(idMovie.get(position));

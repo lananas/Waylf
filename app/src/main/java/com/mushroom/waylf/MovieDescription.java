@@ -43,6 +43,9 @@ public class MovieDescription extends ActionBarActivity {
     private String MoviePoster;
     private Request MovieRequest = new Request();
 
+    final String EXTRA_USERID = "userid";
+    String userId = "";
+
     TextView NameTv;
     TextView YearTv;
     TextView RuntimeTv;
@@ -62,6 +65,8 @@ public class MovieDescription extends ActionBarActivity {
 
         Intent intent = getIntent();
         MovieId = intent.getStringExtra(EXTRA_ID);
+        userId = intent.getExtras().getString(EXTRA_USERID);
+
 
         URL_Request = MovieRequest.SearchIdRequest(MovieId);
         AttemptRequest attemptRequest = new AttemptRequest();

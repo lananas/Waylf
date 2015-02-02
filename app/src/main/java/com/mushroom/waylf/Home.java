@@ -33,6 +33,8 @@ public class Home extends Activity implements View.OnClickListener  {
     private Button mFind, mList;
     public String response ="";
     final String EXTRA = "test";
+    final String EXTRA_USERID = "userid";
+    String userId ="";
 
     private static String URL_Request;
 
@@ -48,12 +50,14 @@ public class Home extends Activity implements View.OnClickListener  {
 
         //setup buttons
         mFind = (Button)findViewById(R.id.find);
-        mList = (Button)findViewById(R.id.listAlreadyWatch);
+        //mList = (Button)findViewById(R.id.listAlreadyWatch);
 
         //register listeners
         mFind.setOnClickListener(this);
-        mList.setOnClickListener(this);
+        //mList.setOnClickListener(this);
 
+        Intent intent = getIntent();
+        userId = intent.getExtras().getString(EXTRA_USERID);
 
     }
 
@@ -79,12 +83,13 @@ public class Home extends Activity implements View.OnClickListener  {
 
                 Intent i = new Intent(this, MoviesList.class);
                 i.putExtra(EXTRA,response);
+                i.putExtra(EXTRA_USERID, userId);
                 startActivity(i);
                 break;
-            case R.id.listAlreadyWatch:
+            //case R.id.listAlreadyWatch:
                 //Intent j = new Intent(this, Serie.class);
                 //startActivity(j);
-                break;
+            //    break;
 
             default:
                 break;

@@ -77,9 +77,10 @@ public class Login extends Activity implements OnClickListener{
         switch (v.getId()) {
             case R.id.login:
 
-                Intent j = new Intent(this, Home.class);
-                startActivity(j);
-                //new AttemptLogin().execute();
+                new AttemptLogin().execute();
+                //Intent j = new Intent(this, Home.class);
+                //startActivity(j);
+
                 break;
             case R.id.register:
                 Intent i = new Intent(this, Register.class);
@@ -115,6 +116,7 @@ public class Login extends Activity implements OnClickListener{
             int success;
             String username = user.getText().toString();
             String password = pass.getText().toString();
+            final String EXTRA_USERID = "userid";
             try {
                 // Building Parameters
                 List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -134,6 +136,8 @@ public class Login extends Activity implements OnClickListener{
                 if (success == 1) {
                     Log.d("Login Successful!", json.toString());
                     Intent i = new Intent(Login.this, Home.class);
+
+                    i.putExtra(EXTRA_USERID,json.getString("userId"));
                     finish();
                     startActivity(i);
                     return json.getString(TAG_MESSAGE);
