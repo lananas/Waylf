@@ -76,11 +76,11 @@ public class MovieDescription extends ActionBarActivity {
             e.printStackTrace();
         }
 
-       // try {
-            //InitializeMovieData(MovieId);
-       // } catch (JSONException e) {
-       //     e.printStackTrace();
-       // }
+        try {
+            InitializeMovieData(MovieId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -110,13 +110,15 @@ public class MovieDescription extends ActionBarActivity {
    public void InitializeMovieData(String id) throws JSONException {
        //String idMovie = MovieRequest.SearchMovieRequest(id);
 
-       String Json = "{\"Title\":\"Frozen\",\"Year\":\"2013\",\"Rated\":\"PG\",\"Released\":\"27 Nov 2013\",\"Runtime\":\"102 min\",\"Genre\":\"Animation, Adventure, Comedy\",\"Director\":\"Chris Buck, Jennifer Lee\",\"Writer\":\"Jennifer Lee (screenplay), Hans Christian Andersen (inspired by the story \\\"The Snow Queen\\\" by), Chris Buck (story), Jennifer Lee (story), Shane Morris (story), Dean Wellins (additional story)\",\"Actors\":\"Kristen Bell, Idina Menzel, Jonathan Groff, Josh Gad\",\"Plot\":\"When a princess with the power to turn things into ice curses her home in infinite winter, her sister, Anna teams up with a mountain man, his playful reindeer, and a snowman to change the weather condition.\",\"Language\":\"English, Icelandic\",\"Country\":\"USA\",\"Awards\":\"Won 2 Oscars. Another 68 wins & 53 nominations.\",\"Poster\":\"http://ia.media-imdb.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg\",\"Metascore\":\"74\",\"imdbRating\":\"7.7\",\"imdbVotes\":\"300,466\",\"imdbID\":\"tt2294629\",\"Type\":\"movie\",\"Response\":\"True\"}";
+       //String Json = "{\"Title\":\"Frozen\",\"Year\":\"2013\",\"Rated\":\"PG\",\"Released\":\"27 Nov 2013\",\"Runtime\":\"102 min\",\"Genre\":\"Animation, Adventure, Comedy\",\"Director\":\"Chris Buck, Jennifer Lee\",\"Writer\":\"Jennifer Lee (screenplay), Hans Christian Andersen (inspired by the story \\\"The Snow Queen\\\" by), Chris Buck (story), Jennifer Lee (story), Shane Morris (story), Dean Wellins (additional story)\",\"Actors\":\"Kristen Bell, Idina Menzel, Jonathan Groff, Josh Gad\",\"Plot\":\"When a princess with the power to turn things into ice curses her home in infinite winter, her sister, Anna teams up with a mountain man, his playful reindeer, and a snowman to change the weather condition.\",\"Language\":\"English, Icelandic\",\"Country\":\"USA\",\"Awards\":\"Won 2 Oscars. Another 68 wins & 53 nominations.\",\"Poster\":\"http://ia.media-imdb.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg\",\"Metascore\":\"74\",\"imdbRating\":\"7.7\",\"imdbVotes\":\"300,466\",\"imdbID\":\"tt2294629\",\"Type\":\"movie\",\"Response\":\"True\"}";
+       String Json = response;
+       Log.d("json", Json);
        //connexion base de donnée
        //Récupération du JSON
        JSONObject JsonObj = new JSONObject();
 
        //Récupération des données parser par json
-       JsonObj = ReadJsonMovie(Json);
+       JsonObj = MovieRequest.ReadJsonMovie(Json);
 
        //Mise en place des données
        NameTv = (TextView) findViewById(R.id.textViewTitle);
@@ -132,15 +134,7 @@ public class MovieDescription extends ActionBarActivity {
        PlotTv.setText(JsonObj.getString("Plot"));
 
    }
-    public JSONObject ReadJsonMovie(String JsonMovie) throws JSONException {
-        JSONObject json = null;
-        try {
-            json = (JSONObject)new org.json.simple.parser.JSONParser().parse(JsonMovie);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
+
 
     private void processValue(String myValue)
     {

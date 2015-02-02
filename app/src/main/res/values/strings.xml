@@ -4,6 +4,6 @@
     <string name="app_name">Waylf</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_movie_description">MovieDescription</string>
+    <string name="title_activity_movie_description"></string>
 
 </resources>

@@ -36,11 +36,8 @@ public class Request {
 
     public JSONObject ReadJsonMovie(String JsonMovie) throws JSONException {
         JSONObject json = null;
-        try {
-            json = (JSONObject)new JSONParser().parse(JsonMovie);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        json = new JSONObject(JsonMovie);
+
         return json;
     }
 
