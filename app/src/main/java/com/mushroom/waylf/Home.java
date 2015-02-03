@@ -67,7 +67,6 @@ public class Home extends Activity implements View.OnClickListener  {
         //Set name and email in global/application context
         ((GlobalClass) this.getApplication()).setUserId(userId);
 
-
     }
 
     @Override
