@@ -2,19 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff" >
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/search"
         android:layout_width="fill_parent"
-        android:layout_height="75dp"
+        android:layout_height="50dp"
         android:layout_above="@+id/TextView01"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:clickable="false"
         android:inputType="text"
-        android:layout_marginTop="75dp" />
+        android:layout_marginTop="75dp"
+        android:background="@color/white"/>
 
     <Button
         android:layout_width="wrap_content"
