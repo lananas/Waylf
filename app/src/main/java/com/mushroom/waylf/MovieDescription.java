@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mushroom.waylf.com.mushroom.waylf.globalvariable.GlobalClass;
 import com.mushroom.waylf.library.Request;
 
 import org.apache.http.NameValuePair;
@@ -70,9 +71,11 @@ public class MovieDescription extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_description);
 
+        //final GlobalClass globalVariable = (GlobalClass) getApplicationContext();
         Intent intent = getIntent();
         MovieId = intent.getStringExtra(EXTRA_ID);
-        userIdP = intent.getStringExtra(EXTRA_USERID);
+        //userIdP = intent.getStringExtra(EXTRA_USERID);
+        userIdP = ((GlobalClass) this.getApplication()).getUserId();
 
 
         URL_Request = MovieRequest.SearchIdRequest(MovieId);
@@ -96,8 +99,9 @@ public class MovieDescription extends ActionBarActivity {
         FilmVu = (CheckBox) findViewById(R.id.checkBox);
         StateCheckVu stateCheckVu = new StateCheckVu();
         stateCheckVu.execute();
+
         try {
-            state = stateCheckVu.get().toString();
+            state = stateCheckVu.get();
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -367,13 +371,13 @@ public class MovieDescription extends ActionBarActivity {
         /**
          * After completing background task Dismiss the progress dialog
          * **/
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String result) {
             // dismiss the dialog once product deleted
             pDialog1.dismiss();
-            if (file_url != null){
-                Log.d("Checked file_url!",file_url);
+            if (result != null){
+                Log.d("Checked file_url!",result);
 
-                processState(file_url);
+                processState(result);
 
 
             }

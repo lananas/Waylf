@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.mushroom.waylf.com.mushroom.waylf.globalvariable.GlobalClass;
 import com.mushroom.waylf.library.JSONParser;
 import org.apache.http.NameValuePair;
 import org.json.JSONObject;
@@ -50,14 +52,21 @@ public class Home extends Activity implements View.OnClickListener  {
 
         //setup buttons
         mFind = (Button)findViewById(R.id.find);
-        //mList = (Button)findViewById(R.id.listAlreadyWatch);
+        mList = (Button)findViewById(R.id.listAlreadyWatch);
 
         //register listeners
         mFind.setOnClickListener(this);
-        //mList.setOnClickListener(this);
+        mList.setOnClickListener(this);
 
         Intent intent = getIntent();
         userId = intent.getExtras().getString(EXTRA_USERID);
+
+        // Calling Application class
+        //final GlobalClass globalVariable = (GlobalClass) getApplicationContext();
+        //((MyApplication) this.getApplication()).setSomeVariable("foo");
+        //Set name and email in global/application context
+        ((GlobalClass) this.getApplication()).setUserId(userId);
+
 
     }
 
@@ -86,10 +95,10 @@ public class Home extends Activity implements View.OnClickListener  {
                 i.putExtra(EXTRA_USERID, userId);
                 startActivity(i);
                 break;
-            //case R.id.listAlreadyWatch:
-                //Intent j = new Intent(this, Serie.class);
-                //startActivity(j);
-            //    break;
+            case R.id.listAlreadyWatch:
+                Intent j = new Intent(this, ListAlreadyWatch.class);
+                startActivity(j);
+                break;
 
             default:
                 break;

@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.mushroom.waylf.com.mushroom.waylf.globalvariable.GlobalClass;
 import com.mushroom.waylf.library.Request;
 
 import org.json.JSONException;
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * Created by antoinerose on 01/02/2015.
  */
@@ -27,7 +27,7 @@ import java.util.List;
 public class MoviesList extends Activity {
 
     ListView liste = null;
-    TextView test = null;
+    //TextView test = null;
     List<String>  idMovie= null;
     final String EXTRA = "test";
     final String EXTRA_ID="MovieId";
@@ -42,17 +42,19 @@ public class MoviesList extends Activity {
 
 
         liste = (ListView) findViewById(R.id.listView);
-        test = (TextView) findViewById(R.id.textView);
+        //test = (TextView) findViewById(R.id.textView);
         Request request = new Request();
 
         // A changer
         //String json = "{\"Search\":[{\"Title\":\"Iron Man\",\"Year\":\"2008\",\"imdbID\":\"tt0371746\",\"Type\":\"movie\"},{\"Title\":\"Iron Man 3\",\"Year\":\"2013\",\"imdbID\":\"tt1300854\",\"Type\":\"movie\"}]}";
         List<String> Movie = null;
 
+        //final GlobalClass globalVariable = (GlobalClass) getApplicationContext();
         Intent intent = getIntent();
         String json = intent.getExtras().getString(EXTRA);
-        userId = intent.getExtras().getString(EXTRA_USERID);
-        System.out.print(userId);
+        //userId = intent.getExtras().getString(EXTRA_USERID);
+        userId = ((GlobalClass) this.getApplication()).getUserId();
+        //((GlobalClass) this.getApplication()).setUserId(userId);
         try {
             Movie = NewListMovie(request.ReadJsonList(json));
             idMovie = NewIdList(request.ReadJsonList(json));
