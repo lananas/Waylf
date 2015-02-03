@@ -1,5 +1,6 @@
 package com.mushroom.waylf;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,7 +38,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
-public class MovieDescription extends ActionBarActivity {
+public class MovieDescription extends Activity {
     final String EXTRA_ID="MovieId";
     private String MovieId;
     private String MovieName;

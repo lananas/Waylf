@@ -1,5 +1,6 @@
 package com.mushroom.waylf;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +19,7 @@ public class ListAlreadyWatch extends ActionBarActivity {
         setContentView(R.layout.list_already_watch);
 
         userId = ((GlobalClass) this.getApplication()).getUserId();
+
     }
 
 
@@ -42,4 +44,8 @@ public class ListAlreadyWatch extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    /* finir le thread de requete permettant la recuperation dans la liste d'element vue.
+    class thread extends AsyncTask <String ,String, String, >{
+
+    }*/
 }

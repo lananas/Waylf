@@ -9,10 +9,11 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+       >
         <activity
             android:name=".Login"
-            android:label="Waylf" >
+            android:label="Waylf"
+            android:theme="@style/loginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,15 +22,18 @@
         </activity>
         <activity
             android:name=".Register"
-            android:label="MySQL Test" >
+            android:label="Sign in"
+            android:theme="@style/loginTheme">
         </activity>
         <activity
             android:name=".Home"
-            android:label="Waylf" >
+            android:label="Waylf"
+            android:theme="@style/homeTheme">
         </activity>
         <activity
             android:name=".MoviesList"
-            android:label="Waylf film" >
+            android:label="Waylf film"
+            android:theme="@style/listTheme">
         </activity>
         <activity
             android:name=".MovieDescription"
