@@ -56,8 +56,10 @@ public class MovieDescription extends ActionBarActivity {
     TextView GenreTv;
     TextView PlotTv;
     private ProgressDialog pDialog;
+    private ProgressDialog pDialog1;
     private static String URL_Request;
     public String response ="";
+    public String state ="";
     com.mushroom.waylf.library.JSONParser jsonParser = new com.mushroom.waylf.library.JSONParser();
     CheckBox FilmVu;
 
@@ -92,6 +94,21 @@ public class MovieDescription extends ActionBarActivity {
             e.printStackTrace();
         }
         FilmVu = (CheckBox) findViewById(R.id.checkBox);
+        StateCheckVu stateCheckVu = new StateCheckVu();
+        stateCheckVu.execute();
+        try {
+            state = stateCheckVu.get().toString();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }catch (ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if(state == "1"){
+            FilmVu.setChecked(!FilmVu.isChecked());
+        }
+
         FilmVu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -158,6 +175,12 @@ public class MovieDescription extends ActionBarActivity {
     {
         this.response = myValue;
         Log.d("Request response", this.response);
+    }
+
+    private void processState(String myValue)
+    {
+        this.state = myValue;
+        Log.d("Request state", this.state);
     }
 
     class AttemptRequest extends AsyncTask<String, String, String> {
@@ -277,6 +300,81 @@ public class MovieDescription extends ActionBarActivity {
             // dismiss the dialog once product deleted
             pDialog.dismiss();
             if (file_url != null){
+
+            }
+
+        }
+    }
+    class StateCheckVu extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        boolean failure = false;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog1 = new ProgressDialog(MovieDescription.this);
+            pDialog1.setMessage("Search State...");
+            pDialog1.setIndeterminate(false);
+            pDialog1.setCancelable(true);
+            pDialog1.show();
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            // TODO Auto-generated method stub
+            // Check for success tag
+            int success;
+
+            String LOGIN_URL = "http://10.0.2.2:8888/webservice/checked.php";
+            final String TAG_SUCCESS = "success";
+            final String TAG_MESSAGE = "message";
+            String omdbId = MovieId;
+            String userId = userIdP;
+            try {
+                // Building Parameters
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("omdbId", omdbId));
+                params.add(new BasicNameValuePair("userId", userId));
+
+                Log.d("request!", "starting");
+                // getting product details by making HTTP request
+                JSONObject json = jsonParser.makeHttpRequest(
+                        LOGIN_URL, "POST", params);
+
+                // check your log for json response
+                Log.d(" success ?", json.toString());
+
+                // json success tag
+                success = json.getInt(TAG_SUCCESS);
+                if (success == 1) {
+
+                    return json.getString(TAG_SUCCESS);
+                }else{
+                    Log.d("Checked Failure!", json.getString(TAG_MESSAGE));
+                    return json.getString(TAG_SUCCESS);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+
+        }
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once product deleted
+            pDialog1.dismiss();
+            if (file_url != null){
+                Log.d("Checked file_url!",file_url);
+
+                processState(file_url);
+
 
             }
 
